@@ -12,6 +12,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentOCar.Users.Infrastructu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentOCar.Users.API", "src\RentOCar.Users.API\RentOCar.Users.API.csproj", "{238872B9-8EB8-4DE1-920C-FA6A450CB139}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks", "..\BuildingBlocks\BuildingBlocks.csproj", "{1135CE73-D5F5-4B8B-9BAB-D1E1809DE40B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlock", "BuildingBlock", "{37F636C6-C2F0-4807-97A1-918CD7589C79}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{FF13441E-FB6C-4B66-B16D-9366FB18607C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		..\.editorconfig = ..\.editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,11 +44,16 @@ Global
 		{238872B9-8EB8-4DE1-920C-FA6A450CB139}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{238872B9-8EB8-4DE1-920C-FA6A450CB139}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{238872B9-8EB8-4DE1-920C-FA6A450CB139}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1135CE73-D5F5-4B8B-9BAB-D1E1809DE40B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1135CE73-D5F5-4B8B-9BAB-D1E1809DE40B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1135CE73-D5F5-4B8B-9BAB-D1E1809DE40B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1135CE73-D5F5-4B8B-9BAB-D1E1809DE40B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{234430E2-8B1A-4455-A01F-93A47E7F1C7B} = {56F76A3D-95DB-46B8-8B6E-C71E239681C3}
 		{5F06F9D5-84EA-4A9E-BDCD-E66533550F1A} = {56F76A3D-95DB-46B8-8B6E-C71E239681C3}
 		{5B1C2599-CDFB-45A1-8C54-5CDB7FB49A15} = {56F76A3D-95DB-46B8-8B6E-C71E239681C3}
 		{238872B9-8EB8-4DE1-920C-FA6A450CB139} = {56F76A3D-95DB-46B8-8B6E-C71E239681C3}
+		{1135CE73-D5F5-4B8B-9BAB-D1E1809DE40B} = {37F636C6-C2F0-4807-97A1-918CD7589C79}
 	EndGlobalSection
 EndGlobal
