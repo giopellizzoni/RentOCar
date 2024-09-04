@@ -1,3 +1,4 @@
+using BuildingBlocks.Abstractions;
 using BuildingBlocks.Extensions.GuardClauses;
 
 namespace RentOCar.Users.Domain.ValueObjects;

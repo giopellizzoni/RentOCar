@@ -1,4 +1,4 @@
-namespace RentOCar.Users.Domain.Abstractions;
+namespace BuildingBlocks.Abstractions;
 
 public abstract class ValueObject
 {

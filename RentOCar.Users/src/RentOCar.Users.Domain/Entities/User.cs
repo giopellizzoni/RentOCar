@@ -1,3 +1,5 @@
+using BuildingBlocks.Abstractions;
+
 namespace RentOCar.Users.Domain.Entities;
 
 public class User: Entity<UserId>

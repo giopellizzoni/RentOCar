@@ -1,4 +1,4 @@
-namespace RentOCar.Users.Domain.Abstractions;
+namespace BuildingBlocks.Abstractions;
 
 public class Entity<T>: IIdentifiable<T>, IAuditable
 {
