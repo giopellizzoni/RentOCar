@@ -1,5 +1,3 @@
-using BuildingBlocks.Abstractions;
-
 namespace RentOCar.Users.Domain.Entities;
 
 public class User: Entity<UserId>
@@ -10,6 +8,8 @@ public class User: Entity<UserId>
 
     public DateTime BirthDate { get; private set; }
 
-    public Email Email { get; set; }
+    public Email Email { get; private set; }
+
+    public Address Address { get; private set; }
 
 }

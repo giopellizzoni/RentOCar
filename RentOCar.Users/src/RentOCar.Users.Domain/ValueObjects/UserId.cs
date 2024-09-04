@@ -1,5 +1,3 @@
-using BuildingBlocks.Abstractions;
-
 namespace RentOCar.Users.Domain.ValueObjects;
 
 public class UserId : ValueObject
