@@ -1,0 +1,13 @@
+
+services:
+  users-db:
+    image: mcr.microsoft.com/mssql/server
+    container_name: users-db
+    env_file:
+      - path: "./env/db.env"
+    restart: always
+    ports:
+      - "1433:1433"
+
+
+
