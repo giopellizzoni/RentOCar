@@ -38,12 +38,12 @@ public class Address : ValueObject
         string country,
         string zipCode)
     {
-        Guard.Against.NullOrEmpty(street, nameof(street), "Address can't be empty");
-        Guard.Against.NullOrEmpty(number, nameof(number), "Number can't be empty");
-        Guard.Against.NullOrEmpty(city, nameof(city), "City can't be empty");
-        Guard.Against.NullOrEmpty(state, nameof(state), "State can't be empty");
-        Guard.Against.NullOrEmpty(country, nameof(country), "Country can't be empty");
-        Guard.Against.NullOrEmpty(zipCode, nameof(zipCode), "ZipCode can't be empty");
+        Guard.Against.NullOrWhiteSpace(street, nameof(street), "Address can't be empty");
+        Guard.Against.NullOrWhiteSpace(number, nameof(number), "Number can't be empty");
+        Guard.Against.NullOrWhiteSpace(city, nameof(city), "City can't be empty");
+        Guard.Against.NullOrWhiteSpace(state, nameof(state), "State can't be empty");
+        Guard.Against.NullOrWhiteSpace(country, nameof(country), "Country can't be empty");
+        Guard.Against.NullOrWhiteSpace(zipCode, nameof(zipCode), "ZipCode can't be empty");
 
         return new Address(street, number, city, state, country, zipCode);
     }

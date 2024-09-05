@@ -1,6 +1,8 @@
 using Bogus;
 using Bogus.Extensions.Brazil;
 
+using BuildingBlocks.Exceptions;
+
 using FluentAssertions;
 
 namespace RentOCar.Users.Domain.Tests.Entities;
@@ -10,21 +12,23 @@ public sealed class UserTests
     private readonly Faker _faker = new("pt_BR");
 
     [Theory]
-    [InlineData("Name", "Document", "08/02/1986", "a@a.com")]
-    [InlineData(null, "Document", "08/02/1986", "a@a.com")]
-    [InlineData("Name", null, "08/02/1986", "a@a.com")]
-    [InlineData("Name", "Document", null, "a@a.com")]
-    [InlineData("Name", "Document", "08/02/1986", null)]
+    [InlineData("Name", "Last", "11122233344", "08/02/1986", "a@a.com")]
+    [InlineData(null, "Last", "11122233344", "08/02/1986", "a@a.com")]
+    [InlineData("Name", null, "11122233344", "08/02/1986", "a@a.com")]
+    [InlineData("Name", "Last", null, "08/02/1986", "a@a.com")]
+    [InlineData("Name", "Last", "11122233344", null, "a@a.com")]
+    [InlineData("Name", "Last", "11122233344", "08/02/1986", null)]
     public void CreateUser_InvalidInput_ThrowException(
-        string name,
+        string firstName,
+        string lastName,
         string document,
         DateTime birthDate,
         string email)
     {
         Action action = () => User.Create(
             UserId.Of(Guid.Empty),
-            name,
-            document,
+            Name.Of(firstName, lastName),
+            Document.Of(document),
             birthDate,
             Email.Of(email),
             Address.Of(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty)
@@ -57,7 +61,12 @@ public sealed class UserTests
         string zipCode)
     {
         var user = MakeUser();
-        var action = () => user.UpdateAddress(street, number, city, state, country, zipCode);
+
+        var action = () =>
+        {
+            var address = Address.Of(street, number, city, state, country, zipCode);
+            user.UpdateAddress(address);
+        };
 
         action.Should().Throw<ArgumentNullException>();
     }
@@ -69,23 +78,61 @@ public sealed class UserTests
         var oldAddress = user.Address;
         var newAddress = MakeAddress();
 
-        user.UpdateAddress(
-            newAddress.Street,
-            newAddress.Number,
-            newAddress.City,
-            newAddress.State,
-            newAddress.Country,
-            newAddress.ZipCode);
+        user.UpdateAddress(newAddress);
 
         oldAddress.Should().NotBeSameAs(user.Address);
+    }
+
+    [Fact]
+    public void CreateUser_DateInFuture_ShouldThrowException()
+    {
+        var address = MakeAddress();
+        var action = () => User.Create(
+            UserId.Of(Guid.NewGuid()),
+            Name.Of(_faker.Person.FirstName, _faker.Person.LastName),
+            Document.Of(_faker.Person.Cpf()),
+            DateTime.Now.AddDays(3),
+            Email.Of(_faker.Person.Email),
+            address);
+
+        action.Should().Throw<ArgumentException>();
+    }
+
+    [Fact]
+    public void CreateUser_InvalidEmail_ShouldThrowInvalidEmailException()
+    {
+        var address = MakeAddress();
+        var action = () => User.Create(
+            UserId.Of(Guid.NewGuid()),
+            Name.Of(_faker.Person.FirstName, _faker.Person.LastName),
+            Document.Of(_faker.Person.Cpf()),
+            DateTime.Now.AddDays(3),
+            Email.Of(""),
+            address);
+
+        action.Should().Throw<InvalidEmailException>();
+    }
+
+    [Fact]
+    public void CreateUser_InvalidDocument_ShouldThrowInvalidDocumentException()
+    {
+        var address = MakeAddress();
+        var action = () => User.Create(
+            UserId.Of(Guid.NewGuid()),
+            Name.Of(_faker.Person.FirstName, _faker.Person.LastName),
+            Document.Of(""),
+            DateTime.Now.AddDays(3),
+            Email.Of(""),
+            address);
+        action.Should().Throw<InvalidDocumentException>();
     }
 
     private User MakeUser()
     {
         return User.Create(
             UserId.Of(Guid.NewGuid()),
-            _faker.Person.FullName,
-            _faker.Person.Cpf(),
+            Name.Of(_faker.Person.FirstName, _faker.Person.LastName),
+            Document.Of(_faker.Person.Cpf()),
             _faker.Person.DateOfBirth,
             Email.Of(_faker.Person.Email),
             MakeAddress()

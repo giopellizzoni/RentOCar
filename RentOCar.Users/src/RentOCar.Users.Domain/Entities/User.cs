@@ -1,10 +1,12 @@
+using BuildingBlocks.Extensions.GuardClauses;
+
 namespace RentOCar.Users.Domain.Entities;
 
 public class User : AggregateRoot<UserId>
 {
-    public string Name { get; private set; }
+    public Name Name { get; private set; }
 
-    public string Document { get; private set; }
+    public Document Document { get; private set; }
 
     public DateTime BirthDate { get; private set; }
 
@@ -14,8 +16,8 @@ public class User : AggregateRoot<UserId>
 
     private User(
         UserId id,
-        string name,
-        string document,
+        Name name,
+        Document document,
         DateTime birthDate,
         Email email,
         Address address)
@@ -30,21 +32,27 @@ public class User : AggregateRoot<UserId>
 
     public static User Create(
         UserId id,
-        string name,
-        string document,
+        Name name,
+        Document document,
         DateTime birthDate,
         Email email,
         Address address)
     {
-        Guard.Against.NullOrEmpty(name, nameof(name));
-        Guard.Against.NullOrEmpty(document, nameof(document));
-        Guard.Against.NullOrOutOfSQLDateRange(birthDate, nameof(birthDate), "User can't be under 18 years old");
+        Guard.Against.Null(id, nameof(id));
+        Guard.Against.Null(name, nameof(name));
+        Guard.Against.Null(document, nameof(document));
+        Guard.Against.IsMinor(birthDate);
+        Guard.Against.IsInFuture(birthDate);
+        Guard.Against.ValidEmail(email.Value);
+        Guard.Against.Null(address);
 
         return new User(id, name, document, birthDate, email, address);
     }
 
-    public void UpdateAddress(string street, string number, string city, string state, string country, string zipCode)
+    public void UpdateAddress(Address address)
     {
-        Address = Address.Of(street, number, city, state, country, zipCode);
+        Guard.Against.Null(address);
+        Address = address;
     }
+
 }
