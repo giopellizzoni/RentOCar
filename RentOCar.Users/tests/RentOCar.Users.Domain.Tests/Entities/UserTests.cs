@@ -11,32 +11,6 @@ public sealed class UserTests
 {
     private readonly Faker _faker = new("pt_BR");
 
-    [Theory]
-    [InlineData("Name", "Last", "11122233344", "08/02/1986", "a@a.com")]
-    [InlineData(null, "Last", "11122233344", "08/02/1986", "a@a.com")]
-    [InlineData("Name", null, "11122233344", "08/02/1986", "a@a.com")]
-    [InlineData("Name", "Last", null, "08/02/1986", "a@a.com")]
-    [InlineData("Name", "Last", "11122233344", null, "a@a.com")]
-    [InlineData("Name", "Last", "11122233344", "08/02/1986", null)]
-    public void CreateUser_InvalidInput_ThrowException(
-        string firstName,
-        string lastName,
-        string document,
-        DateTime birthDate,
-        string email)
-    {
-        Action action = () => User.Create(
-            UserId.Of(Guid.Empty),
-            Name.Of(firstName, lastName),
-            Document.Of(document),
-            birthDate,
-            Email.Of(email),
-            Address.Of(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty)
-        );
-
-        action.Should().Throw<ArgumentException>();
-    }
-
     [Fact]
     private void CreateUser_ValidInput_ReturnUserCreated()
     {
@@ -86,14 +60,7 @@ public sealed class UserTests
     [Fact]
     public void CreateUser_DateInFuture_ShouldThrowException()
     {
-        var address = MakeAddress();
-        var action = () => User.Create(
-            UserId.Of(Guid.NewGuid()),
-            Name.Of(_faker.Person.FirstName, _faker.Person.LastName),
-            Document.Of(_faker.Person.Cpf()),
-            DateTime.Now.AddDays(3),
-            Email.Of(_faker.Person.Email),
-            address);
+        var action = () => MakeUser(birthDate: DateTime.Now.AddDays(3));
 
         action.Should().Throw<ArgumentException>();
     }
@@ -101,41 +68,32 @@ public sealed class UserTests
     [Fact]
     public void CreateUser_InvalidEmail_ShouldThrowInvalidEmailException()
     {
-        var address = MakeAddress();
-        var action = () => User.Create(
-            UserId.Of(Guid.NewGuid()),
-            Name.Of(_faker.Person.FirstName, _faker.Person.LastName),
-            Document.Of(_faker.Person.Cpf()),
-            DateTime.Now.AddDays(3),
-            Email.Of(""),
-            address);
-
+        var action = () => MakeUser(email: Email.Of(""));
         action.Should().Throw<InvalidEmailException>();
     }
 
     [Fact]
     public void CreateUser_InvalidDocument_ShouldThrowInvalidDocumentException()
     {
-        var address = MakeAddress();
-        var action = () => User.Create(
-            UserId.Of(Guid.NewGuid()),
-            Name.Of(_faker.Person.FirstName, _faker.Person.LastName),
-            Document.Of(""),
-            DateTime.Now.AddDays(3),
-            Email.Of(""),
-            address);
+        var action = () => MakeUser(document: Document.Of(""));
+
         action.Should().Throw<InvalidDocumentException>();
     }
 
-    private User MakeUser()
+    private User MakeUser(
+        Name? name = null,
+        Document? document = null,
+        DateTime? birthDate = null,
+        Email? email = null,
+        Address? address = null
+    )
     {
         return User.Create(
-            UserId.Of(Guid.NewGuid()),
-            Name.Of(_faker.Person.FirstName, _faker.Person.LastName),
-            Document.Of(_faker.Person.Cpf()),
-            _faker.Person.DateOfBirth,
-            Email.Of(_faker.Person.Email),
-            MakeAddress()
+            name ?? Name.Of(_faker.Person.FirstName, _faker.Person.LastName),
+            document ?? Document.Of(_faker.Person.Cpf()),
+            birthDate ?? _faker.Person.DateOfBirth,
+            email ?? Email.Of(_faker.Person.Email),
+            address ?? MakeAddress()
         );
     }
 

@@ -42,7 +42,7 @@ public static partial class GuardExtentions
         if (input.Length != 14)
         {
             throw new InvalidDocumentException(
-                "Document Invalid, length must be 11 digits and the format is XXX.XXX.XXX-XX");
+                "Document Invalid, length must be 14 digits and the format is XXX.XXX.XXX-XX");
         }
     }
 

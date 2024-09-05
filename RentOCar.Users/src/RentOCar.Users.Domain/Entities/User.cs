@@ -15,14 +15,13 @@ public class User : AggregateRoot<UserId>
     public Address Address { get; private set; }
 
     private User(
-        UserId id,
         Name name,
         Document document,
         DateTime birthDate,
         Email email,
         Address address)
     {
-        Id = id;
+        Id = UserId.Of(Guid.NewGuid());
         Name = name;
         Document = document;
         BirthDate = birthDate;
@@ -31,14 +30,12 @@ public class User : AggregateRoot<UserId>
     }
 
     public static User Create(
-        UserId id,
         Name name,
         Document document,
         DateTime birthDate,
         Email email,
         Address address)
     {
-        Guard.Against.Null(id, nameof(id));
         Guard.Against.Null(name, nameof(name));
         Guard.Against.Null(document, nameof(document));
         Guard.Against.IsMinor(birthDate);
@@ -46,7 +43,7 @@ public class User : AggregateRoot<UserId>
         Guard.Against.ValidEmail(email.Value);
         Guard.Against.Null(address);
 
-        return new User(id, name, document, birthDate, email, address);
+        return new User(name, document, birthDate, email, address);
     }
 
     public void UpdateAddress(Address address)
