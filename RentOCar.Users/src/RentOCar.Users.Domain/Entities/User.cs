@@ -4,6 +4,8 @@ namespace RentOCar.Users.Domain.Entities;
 
 public class User : AggregateRoot<UserId>
 {
+    protected User() {}
+
     public Name Name { get; private set; }
 
     public Document Document { get; private set; }
