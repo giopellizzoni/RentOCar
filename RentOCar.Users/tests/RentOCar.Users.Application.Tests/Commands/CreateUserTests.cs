@@ -18,6 +18,7 @@ public sealed class CreateUserTests
             _faker.Person.LastName,
             _faker.Person.Cpf(),
             _faker.Person.DateOfBirth,
+            _faker.Person.Phone,
             _faker.Person.Email,
             new AddressDto(
                 _faker.Address.StreetName(),

@@ -39,7 +39,7 @@ public sealed class UserTests
         var action = () =>
         {
             var address = Address.Of(street, number, city, state, country, zipCode);
-            user.UpdateAddress(address);
+            user.Update("99555588888",address);
         };
 
         action.Should().Throw<ArgumentNullException>();
@@ -52,7 +52,7 @@ public sealed class UserTests
         var oldAddress = user.Address;
         var newAddress = MakeAddress();
 
-        user.UpdateAddress(newAddress);
+        user.Update("99555588888", newAddress);
 
         oldAddress.Should().NotBeSameAs(user.Address);
     }
@@ -85,6 +85,7 @@ public sealed class UserTests
         Document? document = null,
         DateTime? birthDate = null,
         Email? email = null,
+        string? phone = null,
         Address? address = null
     )
     {
@@ -93,6 +94,7 @@ public sealed class UserTests
             document ?? Document.Of(_faker.Person.Cpf()),
             birthDate ?? _faker.Person.DateOfBirth,
             email ?? Email.Of(_faker.Person.Email),
+            phone ?? _faker.Person.Phone,
             address ?? MakeAddress()
         );
     }

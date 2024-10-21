@@ -20,6 +20,7 @@ public class CreateUserHandler : ICommandHandler<CreateUserCommand, CreateUserRe
             Document.Of(command.Document),
             command.BirthDate,
             Email.Of(command.Email),
+            command.Phone,
             AddressDto.ToAddress(command.Address)
         );
 

@@ -10,9 +10,9 @@ public record UserOutputModel
 
     public string Email { get; set; }
 
-    public AddressOutputModel Address { get; private set; }
+    public AddressModel Address { get; private set; }
 
-    public UserOutputModel(string name, string document, DateTime birthDate, string email, AddressOutputModel address)
+    public UserOutputModel(string name, string document, DateTime birthDate, string email, AddressModel address)
     {
         Name = name;
         Document = document;
@@ -28,7 +28,7 @@ public record UserOutputModel
             user.Document.ToString() ?? string.Empty,
             user.BirthDate,
             user.Email.ToString() ?? string.Empty,
-            AddressOutputModel.FromAddress(user.Address)
+            AddressModel.FromAddress(user.Address)
         );
     }
 }

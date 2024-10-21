@@ -8,6 +8,7 @@ public record CreateUserCommand(
     string Document,
     DateTime BirthDate,
     string Email,
+    string Phone,
     AddressDto Address) : ICommand<CreateUserResponse>;
 
 public sealed record CreateUserResponse(Guid Id);

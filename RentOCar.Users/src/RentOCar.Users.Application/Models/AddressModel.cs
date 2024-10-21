@@ -2,7 +2,7 @@ using RentOCar.Users.Domain.ValueObjects;
 
 namespace RentOCar.Users.Application.Models;
 
-public record AddressOutputModel
+public record AddressModel
 {
     public string Street { get; set; }
 
@@ -16,7 +16,7 @@ public record AddressOutputModel
 
     public string ZipCode { get; set; }
 
-    public AddressOutputModel(
+    public AddressModel(
         string street,
         string number,
         string city,
@@ -32,9 +32,9 @@ public record AddressOutputModel
         ZipCode = zipCode;
     }
 
-    public static AddressOutputModel FromAddress(Address address)
+    public static AddressModel FromAddress(Address address)
     {
-        return new AddressOutputModel(
+        return new AddressModel(
             address.Street,
             address.Number,
             address.City,
@@ -42,5 +42,16 @@ public record AddressOutputModel
             address.Country,
             address.ZipCode
         );
+    }
+
+    public static Address ToAddress(AddressModel addressModel)
+    {
+        return Address.Of(
+            addressModel.Street,
+            addressModel.Number,
+            addressModel.City,
+            addressModel.State,
+            addressModel.Country,
+            addressModel.ZipCode);
     }
 }

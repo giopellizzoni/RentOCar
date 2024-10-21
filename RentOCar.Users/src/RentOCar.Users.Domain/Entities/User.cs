@@ -16,11 +16,14 @@ public class User : AggregateRoot<UserId>
 
     public Address Address { get; private set; }
 
+    public string Phone { get; set; }
+
     private User(
         Name name,
         Document document,
         DateTime birthDate,
         Email email,
+        string phone,
         Address address)
     {
         Id = UserId.Of(Guid.NewGuid());
@@ -29,6 +32,7 @@ public class User : AggregateRoot<UserId>
         BirthDate = birthDate;
         Email = email;
         Address = address;
+        Phone = phone;
     }
 
     public static User Create(
@@ -36,6 +40,7 @@ public class User : AggregateRoot<UserId>
         Document document,
         DateTime birthDate,
         Email email,
+        string phone,
         Address address)
     {
         Guard.Against.Null(name, nameof(name));
@@ -45,13 +50,14 @@ public class User : AggregateRoot<UserId>
         Guard.Against.ValidEmail(email.Value);
         Guard.Against.Null(address);
 
-        return new User(name, document, birthDate, email, address);
+        return new User(name, document, birthDate, email, phone, address);
     }
 
-    public void UpdateAddress(Address address)
+    public void Update(string phone, Address address)
     {
+        Guard.Against.Null(phone);
         Guard.Against.Null(address);
         Address = address;
+        Phone = phone;
     }
-
 }
