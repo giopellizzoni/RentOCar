@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Queries\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks.csproj" />
       <ProjectReference Include="..\RentOCar.Users.Domain\RentOCar.Users.Domain.csproj" />
       <ProjectReference Include="..\RentOCar.Users.Infrastructure\RentOCar.Users.Infrastructure.csproj" />

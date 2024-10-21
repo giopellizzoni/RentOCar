@@ -8,3 +8,5 @@ public interface IUserRepository: IRepository<User, UserId>
 {
 
 }
+
+

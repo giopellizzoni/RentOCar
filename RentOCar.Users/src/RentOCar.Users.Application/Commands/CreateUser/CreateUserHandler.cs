@@ -1,4 +1,3 @@
-using RentOCar.Users.Domain.Entities;
 using RentOCar.Users.Domain.ValueObjects;
 
 namespace RentOCar.Users.Application.Commands.CreateUser;

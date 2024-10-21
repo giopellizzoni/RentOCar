@@ -19,9 +19,10 @@ public class UserRepository: IUserRepository
         throw new NotImplementedException();
     }
 
-    public Task<List<User>> GetAll()
+    public async Task<List<User>> GetAll()
     {
-        throw new NotImplementedException();
+        var users = await _context.Users.ToListAsync();
+        return users;
     }
 
     public Task Update(User t)
