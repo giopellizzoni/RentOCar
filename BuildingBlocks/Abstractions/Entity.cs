@@ -11,4 +11,6 @@ public class Entity<T>: IIdentifiable<T>, IAuditable
     public DateTime? LastModified { get; set; }
 
     public string? LastModifiedBy { get; set; }
+
+    public bool IsActive { get; set; }
 }
