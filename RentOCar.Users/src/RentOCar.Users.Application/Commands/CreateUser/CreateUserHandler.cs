@@ -1,8 +1,6 @@
-using RentOCar.Users.Domain.ValueObjects;
-
 namespace RentOCar.Users.Application.Commands.CreateUser;
 
-public class CreateUserHandler : ICommandHandler<CreateUserCommand, CreateUserResponse>
+public class CreateUserHandler : ICommandHandler<CreateUserCommand, ResultViewModel<CreateUserResponse>>
 {
     private readonly IUserRepository _userRepository;
 
@@ -11,7 +9,7 @@ public class CreateUserHandler : ICommandHandler<CreateUserCommand, CreateUserRe
         _userRepository = userRepository;
     }
 
-    public async Task<CreateUserResponse> Handle(
+    public async Task<ResultViewModel<CreateUserResponse>> Handle(
         CreateUserCommand command,
         CancellationToken cancellationToken)
     {
@@ -21,11 +19,14 @@ public class CreateUserHandler : ICommandHandler<CreateUserCommand, CreateUserRe
             command.BirthDate,
             Email.Of(command.Email),
             command.Phone,
-            AddressDto.ToAddress(command.Address)
+            AddressModel.ToAddress(command.Address)
         );
 
-        var newUser = await _userRepository.Create(user);
+        await _userRepository.Create(user);
 
-        return new CreateUserResponse(newUser.Id.Value);
+        var response = new CreateUserResponse(user.Id.Value);
+
+        return ResultViewModel<CreateUserResponse>.Success(response);
+
     }
 }

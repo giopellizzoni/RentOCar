@@ -1,5 +1,4 @@
 namespace RentOCar.Users.Application.Commands.UpdateUser;
 
-public record UpdateUserCommand(Guid Id, string Telefone, AddressModel Address) : ICommand<UpdateUserResponse>;
+public record UpdateUserCommand(Guid Id, string Telefone, AddressModel Address) : ICommand<ResultViewModel>;
 
-public record UpdateUserResponse(bool Success);

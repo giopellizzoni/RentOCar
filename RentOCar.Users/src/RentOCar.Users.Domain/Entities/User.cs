@@ -33,6 +33,8 @@ public class User : AggregateRoot<UserId>
         Email = email;
         Address = address;
         Phone = phone;
+        CreatedAt = DateTime.Now;
+        CreatedBy = "System";
     }
 
     public static User Create(
@@ -59,5 +61,14 @@ public class User : AggregateRoot<UserId>
         Guard.Against.Null(address);
         Address = address;
         Phone = phone;
+        LastModified = DateTime.Now;
+        LastModifiedBy = "System";
+    }
+
+    public void Delete()
+    {
+        IsActive = false;
+        LastModified = DateTime.Now;
+        LastModifiedBy = "System";
     }
 }

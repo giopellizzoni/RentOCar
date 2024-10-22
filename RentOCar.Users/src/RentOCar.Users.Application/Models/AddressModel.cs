@@ -1,5 +1,3 @@
-using RentOCar.Users.Domain.ValueObjects;
-
 namespace RentOCar.Users.Application.Models;
 
 public record AddressModel

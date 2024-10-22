@@ -1,8 +1,6 @@
-using RentOCar.Users.Domain.ValueObjects;
-
 namespace RentOCar.Users.Application.Commands.UpdateUser;
 
-public class UpdateUserHandler: ICommandHandler<UpdateUserCommand, UpdateUserResponse>
+public class UpdateUserHandler: ICommandHandler<UpdateUserCommand, ResultViewModel>
 {
     private readonly IUserRepository _userRepository;
 
@@ -11,14 +9,15 @@ public class UpdateUserHandler: ICommandHandler<UpdateUserCommand, UpdateUserRes
         _userRepository = userRepository;
     }
 
-    public async Task<UpdateUserResponse> Handle(
+    public async Task<ResultViewModel> Handle(
         UpdateUserCommand request,
         CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetById(UserId.Of(request.Id));
         if (user is null)
         {
-            return new UpdateUserResponse(false);
+            var response = ResultViewModel.Error("Could not find user with the given id");
+            return response;
         }
 
         user.Update(
@@ -28,6 +27,6 @@ public class UpdateUserHandler: ICommandHandler<UpdateUserCommand, UpdateUserRes
 
         await _userRepository.Update(user);
 
-        return new UpdateUserResponse(true);
+        return ResultViewModel.Success();
     }
 }
