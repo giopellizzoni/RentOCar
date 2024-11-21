@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 using RentOCar.Users.Application.Commands.CreateUser;
+using RentOCar.Users.Application.Commands.DeleteUser;
 using RentOCar.Users.Application.Commands.UpdateUser;
 using RentOCar.Users.Application.Queries.GetUserById;
 using RentOCar.Users.Application.Queries.GetUsers;
@@ -21,7 +22,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllUsers(string search)
+    public async Task<IActionResult> Get(string search)
     {
         var query = new GetUsersQuery(search);
         var result = await _mediator.Send(query);
@@ -35,7 +36,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetUserById(Guid id)
+    public async Task<IActionResult> Get(Guid id)
     {
         var query = new GetUserByIdQuery(id);
         var result = await _mediator.Send(query);
@@ -48,7 +49,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateUser(CreateUserCommand command)
+    public async Task<IActionResult> Post(CreateUserCommand command)
     {
         var result = await _mediator.Send(command);
         if(!result.IsSuccess)
@@ -56,12 +57,12 @@ public class UsersController : ControllerBase
             return BadRequest(result.Message);
         }
 
-        return CreatedAtAction(nameof(GetUserById), new { id = result.Data?.Id, }, result);
+        return CreatedAtAction(nameof(Get), new { id = result.Data?.Id, }, result);
     }
 
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser(Guid id, UpdateUserCommand command)
+    public async Task<IActionResult> Put(Guid id, UpdateUserCommand command)
     {
         var result = await _mediator.Send(command);
         if (!result.IsSuccess)
@@ -70,6 +71,19 @@ public class UsersController : ControllerBase
         }
 
         return Ok(result);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var command = new DeleteUserCommand(id);
+        var result = await _mediator.Send(command);
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result.Message);
+        }
+
+        return NoContent();
     }
 
 }

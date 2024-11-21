@@ -23,7 +23,7 @@ public class UserRepository : IUserRepository
     public async Task<List<User>> GetAll(string? search)
     {
         var users = await _context.Users
-            .Where(u => search != null && u.Name.FirstName.Contains(search))
+            .Where(u => search != null && u.Name.FirstName.Contains(search) && u.IsActive)
             .ToListAsync();
 
         return users;
