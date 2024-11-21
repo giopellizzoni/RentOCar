@@ -50,6 +50,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Post(CreateUserCommand command)
     {
         var result = await _mediator.Send(command);
@@ -63,6 +64,7 @@ public class UsersController : ControllerBase
 
 
     [HttpPut("{id}")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Put(Guid id, UpdateUserCommand command)
     {
         var result = await _mediator.Send(command);
@@ -75,6 +77,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(Guid id)
     {
         var command = new DeleteUserCommand(id);
