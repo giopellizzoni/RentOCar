@@ -36,6 +36,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Get(Guid id)
     {
         var query = new GetUserByIdQuery(id);
